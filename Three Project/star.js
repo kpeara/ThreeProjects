@@ -64,7 +64,7 @@ for (var i = 0; i < 750; i++) {
 }
 
 var sphereGeometry = new THREE.SphereGeometry(70,70,70);
-var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xED51A1,wireframe: true});
+var sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xED51A1, side: THREE.DoubleSide, wireframe: true});
 var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 
 scene.add(sphere);
@@ -74,25 +74,53 @@ camera.position.z = 1000; // move camera back because it is current at (0,0,0) "
 camera.position.x = -200; // move camera back because it is current at (0,0,0) "inside the cube"
 camera.position.y = 20; // move camera back because it is current at (0,0,0) "inside the cube"
 
-
-var incrementX = 0.01;
-var incrementY = -0.01;
-
 var counter = 0;
+
 
 // double click to enable and disable roations
 window.addEventListener("dblclick", function() {
 
+    // var coreGeometry = new THREE.SphereGeometry(30,30,30);
+    // var coreMaterial = new THREE.MeshBasicMaterial({ color: 0xFF107A, side: THREE.DoubleSide});
+    // var core = new THREE.Mesh(coreGeometry, coreMaterial);
+
     if (counter % 2 == 0) {
-        incrementX = 0;
-        incrementY = 0;
+        for (var i = 0; i < cubeArray.length; i++) {
+            for (var j = 0; j < material.length; j++) {
+                
+    
+                if (j != 2 && j != 4) {
+                    cubeArray[i].material[j].color.setHex(0xFFFFFF);
+                }
+                else {
+                    cubeArray[i].material[j].color.setHex(0x000000);
+                }
+                
+                cubeArray[i].material[j].wireframe = false;
+            }
+        }
+    
+        sphere.material.color.setHex(0xFF475A);
     }
     else {
-        incrementX = 0.01;
-        incrementY = -0.01;
+        sphere.material.color.setHex(0x6877FF);
+
+        for (var i = 0; i < cubeArray.length; i++) {
+            for (var j = 0; j < material.length; j++) {
+                
+    
+                if (j != 2 && j != 4) {
+                    cubeArray[i].material[j].color.setHex(0x00A0FF);
+                }
+                else {
+                    cubeArray[i].material[j].color.setHex(0x000000);
+                }
+                
+                cubeArray[i].material[j].wireframe = true;
+            }
+        }
     }
     counter++;
-    
 });
 
 // a render loop, so cube is actually visible
@@ -103,8 +131,8 @@ function animate() {
 
     for (var i = 0; i < cubeArray.length; i++) {
 
-        cubeArray[i].rotation.x += incrementX;
-        cubeArray[i].rotation.y += incrementY;
+        cubeArray[i].rotation.x += 0.01;
+        cubeArray[i].rotation.y += -0.01;
 
         if (cubeArray[i].position.x >= 0) {
             cubeArray[i].position.x -= 0.05 * (Math.random() ** 2);
