@@ -1,4 +1,4 @@
-// Cube JS file
+// Star JS file
 
 var width = window.innerWidth;
 var height = window.innerHeight;
